@@ -1,0 +1,9 @@
+{
+  "name": "Copy of Anchor",
+  "description": "A privacy-first spatial memory tool for saving and returning to locations with intention.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
