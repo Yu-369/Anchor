@@ -40,19 +40,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Verify Java Version
-        run: |
-          echo "JAVA_HOME=$JAVA_HOME"
-          java -version
-          javac -version
-
       - name: Build Debug APK
-        env:
-          JAVA_HOME: ${{ env.JAVA_HOME }}
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug -Dorg.gradle.java.home="$JAVA_HOME" --no-daemon --stacktrace
+          ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
