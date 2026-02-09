@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Seed Color: Violet/Purple (Expressive) -->
+    <color name="colorPrimary">#6750A4</color>
+    <color name="onPrimary">#FFFFFF</color>
+    <color name="colorPrimaryContainer">#EADDFF</color>
+    <color name="onPrimaryContainer">#21005D</color>
+
+    <color name="colorSecondary">#625B71</color>
+    <color name="onSecondary">#FFFFFF</color>
+    <color name="colorSecondaryContainer">#E8DEF8</color>
+    <color name="onSecondaryContainer">#1D192B</color>
+
+    <color name="colorTertiary">#7D5260</color>
+    <color name="onTertiary">#FFFFFF</color>
+    <color name="colorTertiaryContainer">#FFD8E4</color>
+    <color name="onTertiaryContainer">#31111D</color>
+
+    <color name="colorBackground">#1C1B1F</color>
+    <color name="colorSurface">#1C1B1F</color>
+    <color name="onSurface">#E6E1E5</color>
+    <color name="colorSurfaceVariant">#49454F</color>
+    <color name="onSurfaceVariant">#CAC4D0</color>
+
+    <color name="colorOutline">#938F99</color>
+</resources>
