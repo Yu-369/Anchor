@@ -31,14 +31,14 @@ jobs:
       - name: Sync Capacitor
         run: npx cap sync android
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '21'
-
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
 
       - name: Build Debug APK
         run: |
