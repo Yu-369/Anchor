@@ -44,7 +44,17 @@ jobs:
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace
+          # Run build, redirect output to file, and print to console on failure
+          ./gradlew assembleDebug --stacktrace > build.log 2>&1 || (cat build.log && exit 1)
+
+      - name: Upload Build Logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: |
+            android/build.log
+            android/app/build/reports/
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
