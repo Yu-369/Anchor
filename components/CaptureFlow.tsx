@@ -172,7 +172,19 @@ export const CaptureFlow: React.FC<CaptureFlowProps> = ({ onSave, onCancel }) =>
     if (!stream) return;
     chunksRef.current = [];
     try {
-      const recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+      // Find supported mime type
+      const mimeType = [
+        'video/mp4',
+        'video/webm;codecs=vp8',
+        'video/webm',
+      ].find(type => MediaRecorder.isTypeSupported(type)) || '';
+
+      if (!mimeType) {
+        alert("Video recording not supported on this device.");
+        return;
+      }
+
+      const recorder = new MediaRecorder(stream, { mimeType });
       recorder.ondataavailable = (e) => {
         if (e.data.size > 0) chunksRef.current.push(e.data);
       };
@@ -260,7 +272,7 @@ export const CaptureFlow: React.FC<CaptureFlowProps> = ({ onSave, onCancel }) =>
                   SHUTTER OVERLAY LAYER 
                   Positioned at the bottom of the video frame
                 */}
-              <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black/60 to-transparent flex items-end pb-8 px-8">
+              <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black/60 to-transparent flex items-end pb-8 px-8 origin-bottom transform scale-90">
                 <div className="w-full grid grid-cols-[1fr_auto_1fr] items-center justify-items-center">
                   {/* Spacer Left */}
                   <div />
@@ -352,7 +364,7 @@ export const CaptureFlow: React.FC<CaptureFlowProps> = ({ onSave, onCancel }) =>
         - Contains Flash, Mode, Cancel
       */}
       {!capturedImage && (
-        <div className="w-full h-[140px] bg-black flex items-center justify-between px-8 pb-4 shrink-0 z-20">
+        <div className="w-full h-[140px] bg-black flex items-center justify-between px-8 pb-4 shrink-0 z-20 origin-bottom transform scale-90">
 
           {/* Flash Button - 64px */}
           <button

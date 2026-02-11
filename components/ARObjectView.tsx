@@ -357,7 +357,7 @@ export const ARObjectView: React.FC<ARObjectViewProps> = ({
             </div>
           </div>
 
-          <div className="absolute bottom-24 w-full flex justify-center gap-8 items-center">
+          <div className="absolute bottom-24 w-full flex justify-center gap-8 items-center origin-bottom transform scale-90">
             <button onClick={() => setMode('BROWSE')} className="w-14 h-14 bg-white/10 rounded-full flex items-center justify-center text-white">
               <X size={24} />
             </button>
