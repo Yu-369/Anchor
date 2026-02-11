@@ -26,15 +26,20 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '21'
+          # Use Java 17 for AGP 8.7.3 compatibility
+          java-version: '17'
 
-      - name: Install Android SDK 36
+      - name: Install Android SDK 35
         run: |
           echo "ANDROID_HOME: $ANDROID_HOME"
+          # Accept licenses before installing to prevent "License not accepted" errors
           echo "Accepting licenses..."
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
-          echo "Installing platform android-36 and build-tools..."
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-36" "build-tools;36.0.0"
+          
+          echo "Installing platform android-35 and build-tools..."
+          # Install specifically SDK 35 and Build Tools 35.0.0
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-35" "build-tools;35.0.0"
+          
           echo "Installed platforms:"
           ls $ANDROID_HOME/platforms/
 
@@ -45,12 +50,22 @@ jobs:
         run: npm run build
 
       - name: Sync Capacitor
-        run: npx cap sync android
+        # Use verbose flag to debug potential hangs or missing env vars
+        run: npx cap sync android --verbose
+
+      - name: Verify Generated Files
+        # Check if capacitor-cordova-android-plugins and other generated files exist
+        run: |
+          echo "Checking android directory structure..."
+          ls -F android/ || echo "android/ NOT FOUND"
+          echo "Checking android/app directory..."
+          ls -F android/app/ || echo "android/app/ NOT FOUND"
 
       - name: Build Debug APK
         run: |
           cd android
           chmod +x gradlew
+          # stacktrace gives us the actual error if it fails
           ./gradlew assembleDebug --stacktrace > build.log 2>&1 || (cat build.log && exit 1)
 
       - name: Upload Build Logs
