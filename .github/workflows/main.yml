@@ -37,14 +37,20 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-#      - name: Setup Android SDK
-#        uses: android-actions/setup-android@v3
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          cmdline-tools-version: 13.0
+
+      - name: Accept SDK Licenses & Install SDK 36
+        run: |
+          yes | sdkmanager --licenses || true
+          sdkmanager "platforms;android-36" "build-tools;36.0.0"
 
       - name: Build Debug APK
         run: |
           cd android
           chmod +x gradlew
-          # Run build, redirect output to file, and print to console on failure
           ./gradlew assembleDebug --stacktrace > build.log 2>&1 || (cat build.log && exit 1)
 
       - name: Upload Build Logs
