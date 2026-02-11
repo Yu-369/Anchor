@@ -121,7 +121,7 @@ const App: React.FC = () => {
   console.log('=== App render === view:', view, 'places count:', places.length);
 
   return (
-    <div className="h-full w-full bg-black overflow-hidden font-body">
+    <div className="h-full w-full bg-[var(--md-sys-color-background)] overflow-hidden font-body">
       {view === 'dashboard' && (
         <div className="h-full w-full">
           <PlaceList

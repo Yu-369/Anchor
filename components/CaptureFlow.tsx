@@ -364,7 +364,7 @@ export const CaptureFlow: React.FC<CaptureFlowProps> = ({ onSave, onCancel }) =>
         - Contains Flash, Mode, Cancel
       */}
       {!capturedImage && (
-        <div className="w-full h-[140px] bg-black flex items-center justify-between px-8 pb-4 shrink-0 z-20 origin-bottom transform scale-90">
+        <div className="w-full h-[140px] bg-[var(--md-sys-color-background)] flex items-center justify-between px-8 pb-4 shrink-0 z-20 origin-bottom transform scale-90">
 
           {/* Flash Button - 64px */}
           <button
@@ -372,18 +372,18 @@ export const CaptureFlow: React.FC<CaptureFlowProps> = ({ onSave, onCancel }) =>
               triggerHaptic('light');
               setFlashMode(prev => prev === 'on' ? 'off' : 'on');
             }}
-            className="w-[64px] h-[64px] rounded-full bg-[#2d2d2d] flex items-center justify-center border-none cursor-pointer active:scale-95 transition-transform text-white"
+            className="w-[64px] h-[64px] rounded-full bg-[var(--md-sys-color-surface-container)] flex items-center justify-center border-none cursor-pointer active:scale-95 transition-transform text-[var(--md-sys-color-on-surface)]"
           >
             {flashMode === 'on' ? <Icons.FlashOn size={32} /> : <Icons.FlashOff size={32} />}
           </button>
 
           {/* Mode Toggle - Smooth Sliding Pill */}
-          <div className="bg-[#2d2d2d] h-[64px] rounded-[32px] flex items-center p-[4px] relative box-border">
+          <div className="bg-[var(--md-sys-color-surface-container)] h-[64px] rounded-[32px] flex items-center p-[4px] relative box-border">
             {/* Active Indicator */}
             <motion.div
               layout
-              className="absolute top-[4px] bottom-[4px] w-[56px] bg-[#D4FF3F] rounded-full shadow-sm z-0"
-              animate={{ x: mode === 'photo' ? 0 : 64 }} // 56px width + 8px gap/spacer if needed. Simple layout calc.
+              className="absolute top-[4px] bottom-[4px] w-[56px] bg-[var(--md-sys-color-primary)] rounded-full shadow-sm z-0"
+              animate={{ x: mode === 'photo' ? 0 : 64 }}
               transition={{ type: "spring", stiffness: 400, damping: 30 }}
             />
 
@@ -392,7 +392,7 @@ export const CaptureFlow: React.FC<CaptureFlowProps> = ({ onSave, onCancel }) =>
               className="w-[56px] h-[56px] rounded-full flex items-center justify-center cursor-pointer relative z-10"
               onClick={() => switchMode('photo')}
             >
-              <Icons.Camera fill={mode === 'photo' ? '#000000' : '#ffffff'} size={28} />
+              <Icons.Camera fill={mode === 'photo' ? 'var(--md-sys-color-on-primary)' : 'var(--md-sys-color-on-surface)'} size={28} />
             </div>
 
             {/* Spacer to define distance */}
@@ -403,7 +403,7 @@ export const CaptureFlow: React.FC<CaptureFlowProps> = ({ onSave, onCancel }) =>
               className="w-[56px] h-[56px] rounded-full flex items-center justify-center cursor-pointer relative z-10"
               onClick={() => switchMode('video')}
             >
-              <Icons.Video fill={mode === 'video' ? '#000000' : '#ffffff'} size={28} />
+              <Icons.Video fill={mode === 'video' ? 'var(--md-sys-color-on-primary)' : 'var(--md-sys-color-on-surface)'} size={28} />
             </div>
           </div>
 
@@ -413,7 +413,7 @@ export const CaptureFlow: React.FC<CaptureFlowProps> = ({ onSave, onCancel }) =>
               triggerHaptic('light');
               onCancel();
             }}
-            className="w-[64px] h-[64px] rounded-full bg-[#2d2d2d] flex items-center justify-center border-none cursor-pointer active:scale-95 transition-transform text-white"
+            className="w-[64px] h-[64px] rounded-full bg-[var(--md-sys-color-surface-container)] flex items-center justify-center border-none cursor-pointer active:scale-95 transition-transform text-[var(--md-sys-color-on-surface)]"
           >
             <Icons.Cancel size={32} />
           </button>

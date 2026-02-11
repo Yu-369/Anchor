@@ -72,7 +72,8 @@ export const ARObjectView: React.FC<ARObjectViewProps> = ({
   // Report interaction state up to App to toggle BottomNav
   useEffect(() => {
     if (onInteractionStateChange) {
-      onInteractionStateChange(mode === 'PLACING' || mode === 'REVIEW');
+      // Hide navbar in PLACING, REVIEW, AND GUIDING modes
+      onInteractionStateChange(mode === 'PLACING' || mode === 'REVIEW' || mode === 'GUIDING');
     }
   }, [mode, onInteractionStateChange]);
 
@@ -190,15 +191,15 @@ export const ARObjectView: React.FC<ARObjectViewProps> = ({
             className="w-20 h-20 bg-black/40 backdrop-blur-md rounded-full border border-white/10 relative pointer-events-auto shadow-lg"
             onClick={() => { setMode('BROWSE'); setActiveObj(null); }}
           >
-            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle,transparent_30%,#D4FF3F_30%,transparent_31%)]" />
-            <div className="absolute top-0 left-1/2 w-[1px] h-3 bg-white/50 -translate-x-1/2" />
+            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle,transparent_30%,var(--md-sys-color-primary)_30%,transparent_31%)]" />
+            <div className="absolute top-0 left-1/2 w-[1px] h-3 bg-[var(--md-sys-color-on-background)]/50 -translate-x-1/2" />
             {existingObjects.map(obj => {
               const { x, y } = getRadarCoords(obj);
               const isActive = activeObj?.id === obj.id;
               return (
                 <div
                   key={obj.id}
-                  className={`absolute w-3 h-3 rounded-full -ml-1.5 -mt-1.5 transition-all duration-300 ${isActive ? 'bg-[#D4FF3F] scale-125 shadow-[0_0_10px_#D4FF3F] z-10' : 'bg-white/50'}`}
+                  className={`absolute w-3 h-3 rounded-full -ml-1.5 -mt-1.5 transition-all duration-300 ${isActive ? 'bg-[var(--md-sys-color-primary)] scale-125 shadow-[0_0_10px_var(--md-sys-color-primary)] z-10' : 'bg-[var(--md-sys-color-on-background)]/50'}`}
                   style={{ left: `calc(50% + ${x}px)`, top: `calc(50% + ${y}px)` }}
                 />
               );
@@ -208,8 +209,8 @@ export const ARObjectView: React.FC<ARObjectViewProps> = ({
 
         {/* Heading */}
         <div className="flex flex-col items-end gap-2 pointer-events-auto">
-          <div className="bg-black/40 backdrop-blur-md rounded-full px-4 py-2 border border-white/10">
-            <span className="text-white font-mono text-sm">{Math.round(heading)}°</span>
+          <div className="bg-[var(--md-sys-color-surface-container)]/80 backdrop-blur-md rounded-full px-4 py-2 border border-[var(--md-sys-color-outline)]/10">
+            <span className="text-[var(--md-sys-color-on-surface)] font-mono text-sm">{Math.round(heading)}°</span>
           </div>
         </div>
       </div>
@@ -232,12 +233,12 @@ export const ARObjectView: React.FC<ARObjectViewProps> = ({
             <button
               key={obj.id}
               onClick={() => { setActiveObj(obj); setMode('GUIDING'); }}
-              className="shrink-0 snap-center w-64 h-20 bg-[#1A1A1A] border border-white/10 rounded-2xl flex items-center p-2 gap-4 text-left active:scale-95 transition-transform"
+              className="shrink-0 snap-center w-64 h-20 bg-[var(--md-sys-color-surface)] border border-[var(--md-sys-color-outline)]/10 rounded-2xl flex items-center p-2 gap-4 text-left active:scale-95 transition-transform"
             >
-              <img src={obj.image} className="w-16 h-16 rounded-xl object-cover bg-black" />
+              <img src={obj.image} className="w-16 h-16 rounded-xl object-cover bg-[var(--md-sys-color-surface-variant)]" />
               <div>
-                <div className="text-white font-bold text-sm truncate w-32 font-body">{obj.note}</div>
-                <div className="text-[#D4FF3F] text-xs uppercase font-body mt-1 flex items-center gap-1">
+                <div className="text-[var(--md-sys-color-on-surface)] font-bold text-sm truncate w-32 font-body">{obj.note}</div>
+                <div className="text-[var(--md-sys-color-primary)] text-xs uppercase font-body mt-1 flex items-center gap-1">
                   <Navigation size={10} />
                   Navigate
                 </div>
@@ -293,12 +294,12 @@ export const ARObjectView: React.FC<ARObjectViewProps> = ({
                       initial={{ opacity: 0 }}
                       animate={{ opacity: guidance.phase === 'ARRIVED' ? 1 : 0.6 }}
                       exit={{ opacity: 0 }}
-                      className="w-40 h-40 rounded-full overflow-hidden border-2 border-white/50 shadow-2xl relative"
+                      className="w-40 h-40 rounded-full overflow-hidden border-2 border-[var(--md-sys-color-on-background)]/50 shadow-2xl relative"
                     >
                       <img src={activeObj.image} className="w-full h-full object-cover" />
                       {guidance.phase === 'ARRIVED' && (
                         <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                          <Check size={48} className="text-[#D4FF3F] drop-shadow-md" />
+                          <Check size={48} className="text-[var(--md-sys-color-primary)] drop-shadow-md" />
                         </div>
                       )}
                     </motion.div>
@@ -316,7 +317,7 @@ export const ARObjectView: React.FC<ARObjectViewProps> = ({
 
                 {/* Distance/Phase Indicator */}
                 <div className="flex items-center gap-2 mt-2">
-                  <span className="text-[#D4FF3F] font-bold text-sm tracking-widest uppercase">
+                  <span className="text-[var(--md-sys-color-primary)] font-bold text-sm tracking-widest uppercase">
                     {guidance.phase}
                   </span>
                   <span className="text-white/40 text-xs">
@@ -333,7 +334,7 @@ export const ARObjectView: React.FC<ARObjectViewProps> = ({
       {mode === 'PLACING' && (
         <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/40 backdrop-blur-[2px]">
           <div className="relative mb-8">
-            <div className="w-64 h-64 border-2 border-[#D4FF3F] rounded-3xl flex items-center justify-center">
+            <div className="w-64 h-64 border-2 border-[var(--md-sys-color-primary)] rounded-3xl flex items-center justify-center">
               <div className="w-1 h-1 bg-white rounded-full opacity-50" />
             </div>
 
@@ -344,7 +345,7 @@ export const ARObjectView: React.FC<ARObjectViewProps> = ({
                   key={elev}
                   onClick={() => setSelectedElevation(elev)}
                   className={`px-3 py-1.5 rounded-full text-xs uppercase flex items-center gap-1 transition-all ${selectedElevation === elev
-                    ? 'bg-[#D4FF3F] text-black'
+                    ? 'bg-[var(--md-sys-color-primary)] text-[var(--md-sys-color-on-primary)]'
                     : 'bg-white/10 text-white/60'
                     }`}
                 >
@@ -389,12 +390,12 @@ export const ARObjectView: React.FC<ARObjectViewProps> = ({
             placeholder="Object Name..."
             value={newNote}
             onChange={e => setNewNote(e.target.value)}
-            className="w-full max-w-sm bg-[#1A1A1A] border border-white/10 rounded-2xl px-6 py-4 text-white text-center text-lg focus:border-[#D4FF3F] outline-none mb-8 font-body"
+            className="w-full max-w-sm bg-[#1A1A1A] border border-[var(--md-sys-color-outline)]/10 rounded-2xl px-6 py-4 text-white text-center text-lg focus:border-[var(--md-sys-color-primary)] outline-none mb-8 font-body"
           />
 
           <div className="flex gap-4 w-full max-w-sm">
             <button onClick={() => setMode('PLACING')} className="flex-1 py-4 rounded-xl bg-white/10 text-white font-bold font-body">Retake</button>
-            <button onClick={handleSaveObj} className="flex-1 py-4 rounded-xl bg-[#D4FF3F] text-black font-bold shadow-[0_0_20px_rgba(212,255,63,0.3)] font-body flex items-center justify-center gap-2">
+            <button onClick={handleSaveObj} className="flex-1 py-4 rounded-xl bg-[var(--md-sys-color-primary)] text-[var(--md-sys-color-on-primary)] font-bold shadow-[0_0_20px_rgba(212,255,63,0.3)] font-body flex items-center justify-center gap-2">
               <Check size={20} />
               Save
             </button>
