@@ -16,10 +16,21 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   <style>
     :root {
+      /* Material 3 Expressive Defaults (Will be overridden by ThemeProvider) */
       --md-sys-color-background: #000000;
-      --md-sys-color-on-background: #FFFFFF;
-      --md-sys-color-primary: #D4FF3F;
-      --md-sys-color-surface: #121212;
+      --md-sys-color-on-background: #E6E1E5;
+      --md-sys-color-primary: #B0FF8C;
+      /* Expressive Lime */
+      --md-sys-color-on-primary: #000000;
+      --md-sys-color-primary-container: #324B00;
+      --md-sys-color-on-primary-container: #C8FFA4;
+      --md-sys-color-surface: #141414;
+      --md-sys-color-surface-container: #1E1E1E;
+      --md-sys-color-secondary: #D4FF3F;
+      --md-sys-color-secondary-container: #3F4B00;
+      --md-sys-color-tertiary: #A6D1FF;
+      /* Example tertiary */
+      --md-sys-color-outline: #938F99;
     }
 
     html,
@@ -69,7 +80,7 @@
     }
 
     .leaflet-container {
-      filter: invert(100%) hue-rotate(180deg) brightness(0.9);
+      /* filter: invert(100%) hue-rotate(180deg) brightness(0.9); REMOVED DARK MAP FILTER */
     }
 
     /* Utility to hide scrollbars */
@@ -80,6 +91,17 @@
     .no-scrollbar {
       -ms-overflow-style: none;
       scrollbar-width: none;
+    }
+
+    /* Global Scale 90% */
+    body {
+      transform: scale(0.9);
+      transform-origin: top center;
+      height: 111.11vh;
+      /* 100 / 0.9 */
+      width: 100vw;
+      overflow-y: hidden;
+      /* Prevent double scrollbars if any */
     }
   </style>
   <link rel="stylesheet" href="/index.css">

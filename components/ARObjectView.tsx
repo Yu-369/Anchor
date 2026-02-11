@@ -59,6 +59,9 @@ export const ARObjectView: React.FC<ARObjectViewProps> = ({
   const [newNote, setNewNote] = useState('');
   const [selectedElevation, setSelectedElevation] = useState<'floor' | 'eye' | 'overhead'>('eye');
 
+  // Sensor State
+  const [sensorsReady, setSensorsReady] = useState(false);
+
   // New Guidance Hook
   const { guidance, error } = useGuidance({
     targetObjectId: activeObj?.id || null,
@@ -94,7 +97,10 @@ export const ARObjectView: React.FC<ARObjectViewProps> = ({
     startCam();
 
     // Get GPS
-    getCurrentPosition().then(setUserLoc);
+    getCurrentPosition().then(loc => {
+      setUserLoc(loc);
+      setSensorsReady(true);
+    });
     const gpsInterval = setInterval(() => {
       getCurrentPosition().then(setUserLoc).catch(() => { });
     }, 5000);
@@ -213,6 +219,11 @@ export const ARObjectView: React.FC<ARObjectViewProps> = ({
       {/* --- MODE: BROWSE (Object Selection) --- */}
       {mode === 'BROWSE' && (
         <div className="absolute bottom-32 left-0 right-0 px-6 flex gap-4 overflow-x-auto snap-x snap-mandatory py-4 no-scrollbar z-20 touch-pan-x overscroll-contain">
+          {!sensorsReady && existingObjects.length > 0 && (
+            <div className="absolute inset-0 z-30 bg-black/60 backdrop-blur-sm flex items-center justify-center rounded-2xl">
+              <span className="text-white font-mono text-xs animate-pulse">INITIALIZING SENSORS...</span>
+            </div>
+          )}
           {existingObjects.length === 0 ? (
             <div className="w-full text-center text-white/50 font-body text-xs uppercase pt-8">
               No AR objects saved nearby.
