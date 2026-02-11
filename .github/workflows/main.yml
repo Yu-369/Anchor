@@ -22,22 +22,6 @@ jobs:
         with:
           node-version: 22
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '21'
-
-      - name: Install Android SDK 36
-        run: |
-          echo "ANDROID_HOME: $ANDROID_HOME"
-          echo "Accepting licenses..."
-          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
-          echo "Installing platform android-36 and build-tools..."
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-36" "build-tools;36.0.0"
-          echo "Installed platforms:"
-          ls $ANDROID_HOME/platforms/
-
       - name: Install Dependencies
         run: npm ci
 
@@ -47,21 +31,20 @@ jobs:
       - name: Sync Capacitor
         run: npx cap sync android
 
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
       - name: Build Debug APK
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace > build.log 2>&1 || (cat build.log && exit 1)
-
-      - name: Upload Build Logs
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-logs
-          path: |
-            android/build.log
-            android/app/build/reports/
-
+          ./gradlew assembleDebug
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
