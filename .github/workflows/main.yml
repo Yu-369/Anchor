@@ -51,7 +51,7 @@ jobs:
 
       - name: Sync Capacitor
         # Use verbose flag to debug potential hangs or missing env vars
-        run: npx cap sync android --verbose
+        run: npx cap sync android
 
       - name: Verify Generated Files
         # Check if capacitor-cordova-android-plugins and other generated files exist
